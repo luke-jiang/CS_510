@@ -81,7 +81,7 @@ void delete_node(long int num)
             } else {
                 m->next = temp->next;
             }
-            // free(temp->string)
+            free(temp->str);  // Fix for Q2 (a)
             free(temp);
             return;
         } else {
