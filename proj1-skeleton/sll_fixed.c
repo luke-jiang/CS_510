@@ -189,7 +189,7 @@ void duplicate(long int num)
         if (temp->data==num)
         {
             long len = strlen(temp->str)>0 ? strlen(temp->str) : 0;
-            char *name = malloc(len);
+            char *name = malloc(len + 1);   // Fixed for Q2 (c)
             strcpy(name, temp->str);
             add_after(temp->data, i, name);
             return;
