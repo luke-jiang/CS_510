@@ -9,7 +9,7 @@ implementations
 Strategies:
   * compiler: generates
 C/C++:  (output -1)
-```
+```C
 #include <stdio.h>
 
 int main()
@@ -20,7 +20,7 @@ int main()
 }
 ```
 Java:    (output -1)
-```
+```Java
 public class HelloWorld{
 
      public static void main(String []args){
@@ -29,16 +29,16 @@ public class HelloWorld{
 }
 ```
 Python:    (output 1)
-```
+```Python
 print((-5) % 2)
 ```
 Perl:     (output 1)
-```
+```Perl
 print ((-5) % 2);
 ```
 
 ## Question 2
-
+Valgrind Output:
 ```
 ==184638==
 ==184638== HEAP SUMMARY:
@@ -56,15 +56,6 @@ print ((-5) % 2);
 ==184638== For counts of detected and suppressed errors, rerun with: -v
 ==184638== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
 ```
-(a)
-The problem is that when the program exits, not all allocated memories are freed.
-The bug for test case 1 is that when a node is to be deleted from the linked list in
-function delete_node, the str field of that node is not freed. Therefore, I fixed it
-by freeing the str field before freeing the node
+(a) The problem is that when the program exits, not all allocated memories are freed. The bug for test case 1 is that when a node is to be deleted from the linked list in function delete_node, the str field of that node is not freed. Therefore, I fixed it by freeing the str field before freeing the node
 
-(b)
-The problem is that there are some invalid pointer dereference as well as some invalid
-address input for the free function inside delete_all and i.
-The bug for this case is that the pointer p is not updated to NULL after all nodes in
-the list are freed, so when delete_all is called consecutively 2 times, in the second
-time, it will point to a block that is already freed.
+(b) The problem is that there are some invalid pointer dereference as well as some invalid address input for the free function inside delete_all and i. The bug for this case is that the pointer p is not updated to NULL after all nodes in the list are freed, so when delete_all is called consecutively 2 times, in the second time, it will point to a block that is already freed.
