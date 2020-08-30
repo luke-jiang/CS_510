@@ -105,6 +105,7 @@ void delete_all()
         free(temp2->str);
         free(temp2);
     }
+    p = NULL;  // Fix for Q2 (b)
 }
 
 void prepend(long int num, char* name)
