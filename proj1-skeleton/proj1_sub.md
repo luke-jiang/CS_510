@@ -86,6 +86,11 @@ Valgrind would report:
 
 The bug is at the malloc call of function duplicate. The variable len is the length of the str field without counting the null character, but the size of char array to allocate should include the size of the null character. Therefore, changing the malloc size from len to (len + 1) fixes the bug.
 
+## Quesiton 3:
+
+![CFG](cfg.jpg)
+
+
 
 ## Question 4:
 (a)  
