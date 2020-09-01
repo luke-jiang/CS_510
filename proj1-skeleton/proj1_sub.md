@@ -87,4 +87,39 @@ Valgrind would report:
 The bug is at the malloc call of function duplicate. The variable len is the length of the str field without counting the null character, but the size of char array to allocate should include the size of the null character. Therefore, changing the malloc size from len to (len + 1) fixes the bug.
 
 
+## Question 4:
+(a)  
+TR for NC: {1,2,3,4,5,6,7,8,9,10,11}
+
+TR for EC: {  
+   [1,2],[1,3],  
+   [2,3],  
+   [3,4],[3,5],[3,6],[3,7],  
+   [4,8],  
+   [5,8],  
+   [6,7],  
+   [7,8],  
+   [8,9],[8,10],  
+   [9,11],  
+   [10,11]  
+}
+
+TR for EPC: {  
+   [1,2,3],  
+   [1,3,4],[1,3,5],[1,3,5],[1,3,7],  
+   [2,3,4],[2,3,5],[2,3,6],[2,3,7],  
+   [3,4,8],  
+   [3,5,8],  
+   [3,6,7],[3,6,8],  
+   [3,7,8],  
+   [4,8,9],[4,8,10],  
+   [5,8,9],[5,8,10],  
+   [6,8,9],[6,8,10],  
+   [7,8,9],[7,8,10],  
+   [8,9,11],  
+   [8,10,11]  
+}
+
+
+   
 
