@@ -8,31 +8,7 @@ import java.io.ByteArrayOutputStream;
 public class TestM {
 
     /* add your test code here */
-    private final PrintStream standardOut = System.out;
-    private final ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
 
-    @BeforeEach
-    public void setUp() {
-	System.setOut(new PrintStream(outputStreamCaptor));
-    }
-
-    @Test
-    public void NCnotEC() {
-	M tester = new M();
-	
-	tester.m("", 0);
-	Assert.assertEquals("zero", outputStreamCaptor.toString().trim());
-	
-	tester.m("a", 0);
-	Assert.assertEquals("a", outputStreamCaptor.toString().trim());
-	
-	tester.m("aa", 0);
-	Assert.assertEquals("b", outputStreamCaptor.toString().trim());
-	
-	tester.m("aaa", 0);
-	Assert.assertEquals("b", outputStreamCaptor.toString().trim());
-    }
-    
 }
 
 class M {
@@ -41,7 +17,7 @@ class M {
 		if (argv.length > 0)
 			obj.m(argv[0], argv.length);
 	}
-	
+
 	public void m(String arg, int i) {
 		int q = 1;
 		A o = null;
@@ -53,7 +29,7 @@ class M {
 			case 0: q /= 2; break;
 			case 1: o = new A(); new B(); q = 25; break;
 			case 2: o = new A(); q = q * 100;
-			default: o = new B(); break; 
+			default: o = new B(); break;
 		}
 		if (arg.length() > 0) {
 			o.m();
@@ -65,13 +41,13 @@ class M {
 }
 
 class A {
-	public void m() { 
+	public void m() {
 		System.out.println("a");
 	}
 }
 
 class B extends A {
-	public void m() { 
+	public void m() {
 		System.out.println("b");
 	}
 }
