@@ -94,9 +94,9 @@ The bug is at the malloc call of function duplicate. The variable len is the len
 
 ## Question 4:
 (a)  
-TR for NC: {1,2,3,4,5,6,7,8,9,10,11}
+TRs for NC: {1,2,3,4,5,6,7,8,9,10,11}
 
-TR for EC: {  
+TRs for EC: {  
    [1,2],[1,3],  
    [2,3],  
    [3,4],[3,5],[3,6],[3,7],  
@@ -109,22 +109,37 @@ TR for EC: {
    [10,11]  
 }
 
-TR for EPC: {  
+unfeasible EC edges: { [6,8] }
+Since `case 2` in `switch` doesn't have a `break` statement, node 6 will always
+go to 7 instead of 8.
+
+TRs for EPC: {  
    [1,2,3],  
-   [1,3,4],[1,3,5],[1,3,5],[1,3,7],  
+   [1,3,4],[1,3,5],[1,3,6],[1,3,7],  
    [2,3,4],[2,3,5],[2,3,6],[2,3,7],  
    [3,4,8],  
    [3,5,8],  
-   [3,6,7],[3,6,8],  
+   [3,6,7],  
    [3,7,8],  
-   [4,8,9],[4,8,10],  
-   [5,8,9],[5,8,10],  
-   [6,8,9],[6,8,10],  
-   [7,8,9],[7,8,10],  
+   [4,8,10],  
+   [5,8,9],
+   [6,7,8]
+   [7,8,9],
    [8,9,11],  
    [8,10,11]  
 }
 
+unfeasible EPC subpaths : {
+  [3,6,8],[6,8,9],[6,8,10],
+  [4,8,9],
+  [5,8,10],[7,8,10]
+}
+Paths [3,6,8],[6,8,9],[6,8,10] are unfeasible because they contain unfeasible edge [6,8]
+Path [4,8,9] is unfeasible because edge [4,8] is possible iff `args.length()` equals to 0,
+which means node 8 always takes the `false` branch.
+Path [5,8,10],[7,8,10] are unfeasible because edges [5,8],[7,8] are possible iff `args.length` is
+greater than zero, which means node 8 always takes the `true` branch.
 
-   
+TRs for EPC: {
 
+}
