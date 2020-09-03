@@ -129,7 +129,7 @@ TRs for EPC: {
    [8,10,11]  
 }
 
-unfeasible EPC subpaths : {
+unfeasible EPC subpaths: {
   [3,6,8],[6,8,9],[6,8,10],
   [4,8,9],
   [5,8,10],[7,8,10]
@@ -140,6 +140,28 @@ which means node 8 always takes the `false` branch.
 Path [5,8,10],[7,8,10] are unfeasible because edges [5,8],[7,8] are possible iff `args.length` is
 greater than zero, which means node 8 always takes the `true` branch.
 
-TRs for EPC: {
+TRs for PPC: {
+    [1,2,3,4,8,10,11],
+    [1,2,3,5,8,9,11],
+    [1,2,3,6,7,8,9,11],
+    [1,2,3,7,8,9,11],
 
+    [1,3,4,8,10,11],
+    [1,3,5,8,9,11],
+    [1,3,6,7,8,9,11],
+    [1,3,7,8,9,11],
+}
+
+unfeasible PPC subpaths: {
+    [1,2,3,4,8,9,11]
+    [1,2,3,5,8,10,11],
+    [1,2,3,6,8,9,11], [1,2,3,6,8,10,11],
+    [1,2,3,6,7,8,10,11],
+    [1,2,3,7,8,9,11],
+
+    [1,3,4,8,9,11]
+    [1,3,5,8,10,11],
+    [1,3,6,8,9,11], [1,3,6,8,10,11],
+    [1,3,6,7,8,10,11],
+    [1,3,7,8,10,11],
 }
