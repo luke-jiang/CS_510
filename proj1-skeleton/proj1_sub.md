@@ -1,13 +1,8 @@
-
+Luke Jiang
+jiang700@purdue.edu
 
 ## Question 1
-C, C++ and Java output -1, but Perl and Python output 1.
 
-The reason for this discrepancy is because different languages have different
-implementations
-
-Strategies:
-  * compiler: generates
 C/C++:  (output -1)
 ```C
 #include <stdio.h>
@@ -21,7 +16,7 @@ int main()
 ```
 Java:    (output -1)
 ```Java
-public class HelloWorld{
+public class HelloWorld {
 
      public static void main(String []args){
         System.out.println((-5) % 2);
@@ -36,6 +31,17 @@ Perl:     (output 1)
 ```Perl
 print ((-5) % 2);
 ```
+
+After running previous 4 code snippets, I found out that C, C++ and Java output -1, but Perl and Python output 1.
+
+The reason for this discrepancy is because different languages have different implementations. In C/C++ and Java, the negative sign is prepended to the output, but this is not the case for Python or Perl.
+
+Strategies:
+  1. The compiler/interpreter can disallow negative input completely and throw an error message when it encounters one.
+  2. Developers can develop a habit of always use an `abs` function to the result of a modulo operation.
+  3. Compilers can analyze the program in compile time to give alert of potential negative inputs to the modulo operation.
+  4. Programming languages can agree on a new standard that always output a nonnegative number. 
+
 
 ## Question 2
 Valgrind Output:
