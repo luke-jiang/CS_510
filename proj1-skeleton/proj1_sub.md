@@ -196,12 +196,16 @@ unfeasible PPC subpaths:
 ## Question 5
 ### addNode:
 For function `addNode`, the test suite achieves NC and EC. The CFG of my implementation is the following:
-![CFG](flowcharts/addNode.jpg)
+![CFG](flowcharts/addNode.jpg)  
 The test case `addNode` covers path [1,2,3] and `addNode_duplicate` covers path [1,3], so all edges and nodes are covered.
 ### addEdge:
 For function `addNode`, the test suite achieves NC and EC. My implementation of this function has one basic block, and test case `addEdge` covers it.
 ### deleteNode:
-For function `deleteNode`, the test suite achieves NC and EC. The CFG of my implementation is the following:
-![CFG](flowcharts/deleteNode.jpg)
+For function `deleteNode`, the test suite achieves NC and EC. The CFG of my implementation is the following, with the `foreach` loop translated with an explicit iterator:
+![CFG](flowcharts/deleteNode.jpg)  
+Test case `deleteNode_missing` covers path [1,2,7]. Test case `deleteNode` will traverse the `edges` map multiple times, so it would cover the rest edges.
 ### deleteEdge:
+For function `deleteEdge`, the test suite achieves NC and EC. The CFG of my implementation is the following:
+![CFG](flowcharts/deleteEdge.jpg)  
+
 ### isReachable:
