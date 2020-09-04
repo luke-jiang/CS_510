@@ -209,3 +209,6 @@ For function `deleteEdge`, the test suite achieves NC and EC. The CFG of my impl
 ![CFG](flowcharts/deleteEdge.jpg)  
 Test case `deleteEdge` covers path [1,2,3,4] and `deleteEdge_missing` covers path [1,2,4].
 ### isReachable:
+TODO
+For function `isReachable`, the test suite achieves NC and EC. The CFG of my implementation is the following:  
+![CFG](flowcharts/isReachable.jpg)
