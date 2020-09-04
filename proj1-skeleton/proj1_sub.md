@@ -1,5 +1,5 @@
-Luke Jiang
-jiang700@purdue.edu
+Luke Jiang   
+jiang700@purdue.edu   
 
 ## Question 1
 
@@ -40,7 +40,7 @@ Strategies:
   1. The compiler/interpreter can disallow negative input completely and throw an error message when it encounters one.
   2. Developers can develop a habit of always use an `abs` function to the result of a modulo operation.
   3. Compilers can analyze the program in compile time to give alert of potential negative inputs to the modulo operation.
-  4. Programming languages can agree on a new standard that always output a nonnegative number. 
+  4. Programming languages can agree on a new standard that always output a nonnegative number.
 
 
 ## Question 2
@@ -92,13 +92,13 @@ Valgrind would report:
 
 The bug is at the malloc call of function duplicate. The variable len is the length of the str field without counting the null character, but the size of char array to allocate should include the size of the null character. Therefore, changing the malloc size from len to (len + 1) fixes the bug.
 
-## Quesiton 3:
+## Quesiton 3
 
-![CFG](cfg.jpg)
+![CFG](flowcharts/q3.jpg)
 
 
 
-## Question 4:
+## Question 4
 (a)  
 TRs for NC:
 ```
@@ -191,3 +191,6 @@ unfeasible PPC subpaths:
     [1,3,7,8,10,11],  
 }
 ```
+
+
+## Question 5
