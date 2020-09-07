@@ -1,3 +1,4 @@
+
 import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,6 +12,7 @@ import java.util.HashMap;
 import org.objectweb.asm.*;
 import org.objectweb.asm.tree.*;
 import org.objectweb.asm.tree.analysis.*;
+
 
 public class CFGTest {
     private CFG cfg;
@@ -48,14 +50,16 @@ public class CFGTest {
             } catch (AnalyzerException e) {}
         }
     }
-
+    
+    
     @Test
     public void addNode() {
+    	// System.out.println(cfg.nodes.size());
         cfg.addNode(1000, m_m, m);
         CFG.Node n = new CFG.Node(1000, m_m, m);
         assertTrue(cfg.nodes.contains(n));
     }
-
+    
     @Test
     public void addEdge() {
         cfg.addEdge(1000, m_m, m,
@@ -65,7 +69,7 @@ public class CFGTest {
 
         assertTrue(cfg.edges.get(n).contains(nn));
     }
-
+    
     @Test
     public void addEdge_oneNewNode() {
         cfg.addNode(1000, m_m, m);
@@ -74,7 +78,17 @@ public class CFGTest {
         CFG.Node nn = new CFG.Node(1001, m_m, m);
         assertTrue(cfg.nodes.contains(nn));
     }
+    
+    @Test
+    public void addEdge_twoNewNodes() {
+        cfg.addNode(1000, m_m, m);
+        cfg.addNode(1001, m_m, m);
+        cfg.addEdge(1000, m_m, m, 1001, m_m, m);
 
+        CFG.Node nn = new CFG.Node(1001, m_m, m);
+        assertTrue(cfg.nodes.contains(nn));
+    }
+    
     @Test
     public void addNode_duplicate() {
         cfg.addEdge(1000, m_m, m,
@@ -83,7 +97,7 @@ public class CFGTest {
         CFG.Node n = new CFG.Node(1000, m_m, m);
         assertTrue(cfg.edges.get(n).size() == 1);
     }
-
+    
     @Test
     public void deleteNode() {
         CFG.Node n = new CFG.Node(1000, m_m, m);
@@ -99,7 +113,7 @@ public class CFGTest {
         assertEquals(sizeExpected - 1, cfg.nodes.size());
         assertFalse(cfg.edges.get(n).contains(nn));
     }
-
+    
     @Test
     public void deleteNode_missing() {
         CFG.Node n = new CFG.Node(1000, m_m, m);
@@ -116,7 +130,7 @@ public class CFGTest {
         // there must be no change in nodes.
         assertEquals(expected, cfg.nodes);
     }
-
+    
     @Test
     public void deleteEdge() {
         CFG.Node n = new CFG.Node(1000, m_m, m);
@@ -135,11 +149,12 @@ public class CFGTest {
         assertFalse(cfg.edges.get(n).contains(nn));
         assertEquals(sizeExpected - 1, cfg.edges.get(n).size());
     }
-
+    
     @Test
     public void deleteEdge_missing() {
         CFG.Node n = new CFG.Node(1000, m_m, m);
-        CFG.Node nn = new CFG.Node(1001, m_m, m);
+        CFG.Node nn = new CFG.Node(1001, m_m, m);;
+        // System.out.println(cfg.nodes.contains(n));
 
         Map<CFG.Node, Set<CFG.Node>> expected = new HashMap<CFG.Node, Set<CFG.Node>>();
 
@@ -155,13 +170,13 @@ public class CFGTest {
 
             expected.put(mCopy, mNeighboursCopy);
         }
-
+        
         // try to remove a non-existing edge
         cfg.deleteEdge(n.position, n.method, n.clazz, nn.position, nn.method, nn.clazz);
         //there must be no change in edges.
         assertEquals(expected, cfg.edges);
     }
-
+    
     @Test
     public void deleteEdge_missingSrcNode() {
         CFG.Node n = new CFG.Node(1000, m_m, m);
@@ -196,32 +211,58 @@ public class CFGTest {
         assertEquals(expected, cfg.edges);
 
     }
-
+    
     @Test
     public void reachable_true() {
+    	/*
+    	CFG.Node ref = cfg.getNode(0, m_m, m);
+    	CFG.Node ref1 = cfg.getNode(3, m_m, m);
+    	for (CFG.Node n : cfg.edges.get(ref)) {
+    		if (n.equals(ref1)) {
+    			System.out.println("true");
+    		}
+    	}*/
+    	/*
+    	for (CFG.Node n : cfg.edges.keySet()) {
+    		System.out.print(n.position + ":");
+    		for (CFG.Node t : cfg.edges.get(n)) {
+    			System.out.print(t.position + ",");
+    		}
+    		System.out.println();
+    	}*/
+    	
+    	
         assertTrue(cfg.isReachable(0, m_m, m,
                     3, m_m, m));
     }
-
+    
     @Test
     public void reachable_unreachable() {
         assertFalse(cfg.isReachable(59, m_m, m,
                     0, m_m, m));
     }
-
+    
     @Test
     public void reachable_missingSrc() {
         assertFalse(cfg.isReachable(-100, m_m, m,
                     0, m_m, m));
     }
-
+    
     @Test
     public void reachable_missingTarget() {
         assertFalse(cfg.isReachable(0, m_m, m, 1000, m_m, m));
     }
-
+    
+    
+    @Test
+    public void reachable_loop() {
+    	cfg.addEdge(2, m_m, m, 1, m_m, m);
+        assertTrue(cfg.isReachable(0, m_m, m, 3, m_m, m));
+    }
+	
 }
 
+/*
 class M {
     public void m(String arg, int i) {
         int q = 1;
@@ -255,4 +296,5 @@ class B extends A {
     public void m() {
         System.out.println("b");
     }
-}
+}*/
+

@@ -36,7 +36,7 @@ public class CFG {
 		}
     }
     
-    private Node getNode(int p, MethodNode m, ClassNode c) {
+    public Node getNode(int p, MethodNode m, ClassNode c) {
     	Node ref = new Node(p, m, c);
     	for (Node n : nodes) {
     		if (n.equals(ref)) {
@@ -47,8 +47,14 @@ public class CFG {
     }
 
     public void addNode(int p, MethodNode m, ClassNode c) {
-    	if (getNode(p, m, c) != null) {
+    	/*if (getNode(p, m, c) != null) {
     		return;
+    	}*/
+    	Node ref = new Node(p, m, c);
+    	for (Node n : nodes) {
+    		if (n.equals(ref)) {
+    			return;
+    		}
     	}
     	Node node = new Node(p, m, c);
     	nodes.add(node);
@@ -61,8 +67,19 @@ public class CFG {
     	addNode(p1, m1, c1);
     	addNode(p2, m2, c2);
     	
-    	Node n1 = getNode(p1, m1, c1);
-    	Node n2 = getNode(p2, m2, c2);
+    	// Node n1 = getNode(p1, m1, c1);
+    	// Node n2 = getNode(p2, m2, c2);
+    	Node n1 = null;
+    	Node n2 = null;
+    	Node ref1 = new Node(p1, m1, c1);
+    	Node ref2 = new Node(p2, m2, c2);
+    	for (Node n : nodes) {
+    		if (n.equals(ref1)) {
+    			n1 = n;
+    		} else if (n.equals(ref2)) {
+    			n2 = n;
+    		}
+    	}
     	
     	Set<Node> n1_neighbors = edges.get(n1);
     	n1_neighbors.add(n2);
@@ -71,10 +88,18 @@ public class CFG {
     }
 	
 	public void deleteNode(int p, MethodNode m, ClassNode c) {
-		Node toDelete = getNode(p, m, c);
+		// Node toDelete = getNode(p, n, c);
+		Node toDelete = null;
+		Node ref = new Node(p, m, c);
+    	for (Node n : nodes) {
+    		if (n.equals(ref)) {
+    			toDelete = n;
+    		}
+    	}
 		if (toDelete == null) {
 			return;
 		}
+		
 		for (Node n : edges.keySet()) {
 			edges.get(n).remove(toDelete);
 		}
@@ -85,8 +110,20 @@ public class CFG {
     public void deleteEdge(int p1, MethodNode m1, ClassNode c1,
 						int p2, MethodNode m2, ClassNode c2) {
 
-    	Node n1 = getNode(p1, m1, c1);
-    	Node n2 = getNode(p2, m2, c2);
+    	// Node n1 = getNode(p1, m1, c1);
+    	// Node n2 = getNode(p2, m2, c2);
+    	Node n1 = null;
+    	Node n2 = null;
+    	Node ref1 = new Node(p1, m1, c1);
+    	Node ref2 = new Node(p2, m2, c2);
+    	for (Node n : nodes) {
+    		if (n.equals(ref1)) {
+    			n1 = n;
+    		} else if (n.equals(ref2)) {
+    			n2 = n;
+    		}
+    	}
+    	
     	if (n1 == null || n2 == null) {
     		return;
     	}
@@ -96,8 +133,22 @@ public class CFG {
 
     public boolean isReachable(int p1, MethodNode m1, ClassNode c1,
 			       int p2, MethodNode m2, ClassNode c2) {
-    	Node start = getNode(p1, m1, c1);
-    	Node end = getNode(p2, m2, c2);
+    	// Node start = getNode(p1, m1, c1);
+    	// Node end = getNode(p2, m2, c2);
+    	
+    	Node start = null;
+    	Node end = null;
+    	Node ref1 = new Node(p1, m1, c1);
+    	Node ref2 = new Node(p2, m2, c2);
+    	for (Node n : nodes) {
+    		if (n.equals(ref1)) {
+    			start = n;
+    		} else if (n.equals(ref2)) {
+    			end = n;
+    		}
+    	}	
+    	
+    	
     	if (start == null || end == null) {
     		return false;
     	}
@@ -115,6 +166,8 @@ public class CFG {
     		for (Node n : edges.get(curr)) {
     			if (!visited.contains(n)) {
     				st.push(n);
+    			} else {
+    				// System.out.println("alert");
     			}
     		}
     	}

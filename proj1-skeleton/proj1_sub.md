@@ -197,22 +197,20 @@ unfeasible PPC subpaths:
 ### addNode:
 For function `addNode`, the test suite achieves NC and EC. The CFG of my implementation is the following:  
 ![CFG](flowcharts/proj1-addNode.jpg)  
-The test case `addNode` covers path [1,2,3] and `addNode_duplicate` covers path [1,3], so all edges and nodes are covered.
+From `createCFG()`, we know that initially the graph contains 90 nodes, which have positions 0 to 89. Therefore, when `addNode` is called, it will traverse the for loop multiple times and then it will discover that the node to add is not in `nodes`, so the program will create the node to add, and insert it into `nodes`. Thus, `addNode` achieves node coverage and it covers all edges except the edge [4, 6], which happens when the node to add is already contained by `nodes`. This edge is covered by `addNode_duplicate`. Therefore, the test suite achieves EC as well.
 ### addEdge:
-For function `addNode`, the test suite achieves NC and EC. The CFG of my implementation is the following:  
+For function `addNode`, the test suite doesn't achieve NC or EC. The CFG of my implementation is the following:  
 ![CFG](flowcharts/proj1-addEdge.jpg)  
-
-
-My implementation of this function has one basic block, and test case `addEdge` covers it.  
+Test case `addEdge` adds an edge whose two vertices are absent in `nodes`. Based on this semantics, it covers nodes [1,2,3,4,6,8] and edges [1,2], [2,3], [3,4], [4,6], [6,2], [2,8]. Test case `addEdge_oneNewNode` adds an edge whose first vertex is already present in `nodes`. This test case covers an additional node 5 and edges [4,5], [5,2]. However, edges [6,7], [7,2] and node 7 are not covered, because the second vertex is not a new node. Therefore, I created an additional test case `addEdge_twoNewNodes` which adds an edge of two nodes that are already present in `nodes`. Now all edges and vertices are covered.
 ### deleteNode:
 For function `deleteNode`, the test suite achieves NC and EC. The CFG of my implementation is the following, with the `foreach` loop translated with an explicit iterator:  
 ![CFG](flowcharts/proj1-deleteNode.jpg)  
-Test case `deleteNode_missing` covers path [1,2,7]. Test case `deleteNode` will traverse the `edges` map multiple times, so it would cover the rest edges.
+Test case `deleteNode_missing` deletes a single node that is present in `nodes`. Based on this semantics, the test case covers all nodes and all edges except the edge [6, 11], which happens when the node to delete is not present. This case is covered by the test case `deleteNode_missing`. So the test suite achieves full NC and EC.
 ### deleteEdge:
 For function `deleteEdge`, the test suite achieves NC and EC. The CFG of my implementation is the following:  
 ![CFG](flowcharts/proj1-deleteEdge.jpg)  
-Test case `deleteEdge` covers path [1,2,3,4] and `deleteEdge_missing` covers path [1,2,4].
+Test case `deleteEdge` deletes an edge whose nodes are present in `nodes` and the edge itself is also present. Based on this semantics, the test case covers all the nodes and all edges except [8, 10], which happens when one of the vertices of the edge to delete is not present in `nodes`. This edge is covered by `deleteEdge_missing`, which tries to delete an edge whose vertices are not present in `nodes`. Therefore, the test suite achieves full NC and EC.
 ### isReachable:
-TODO
-For function `isReachable`, the test suite achieves NC and EC. The CFG of my implementation is the following:  
-![CFG](flowcharts/isReachable.jpg)
+For function `isReachable`, the test suite achieves NC but not EC. The CFG of my implementation is the following:  
+![CFG](flowcharts/proj1-isReachable.jpg)
+The test case `reachable_true` searches two nodes that are both in `nodes`. In this case, all nodes and edges in nodes 1 to 7 are covered. By investigating the structure of the input CFG, I found out that for this test case, the set `visited` always empty, since there are no loops traversed by the DFS from the starting node to the end node. Therefore, this test case covers all edges except [8, 18] and [16, 14] and all nodes except node 18. The edge [8, 18] and the node 18 are covered by `reachable_missingSrc`, but no other test cases provided actually covered edge [16, 14]. So the test suite achieves node coverage but not edge coverage. Therefore, I added another test case that adds an additional edge to form a loop. This time, edge [16, 17] is covered.
