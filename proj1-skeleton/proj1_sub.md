@@ -1,5 +1,5 @@
-Luke Jiang   
-jiang700@purdue.edu   
+Name: Luke Jiang   
+Email: jiang700@purdue.edu   
 
 ## Question 1
 
@@ -16,7 +16,7 @@ int main()
 ```
 Java:    (output -1)
 ```Java
-public class HelloWorld {
+public class Modulo {
 
      public static void main(String []args){
         System.out.println((-5) % 2);
