@@ -94,7 +94,7 @@ The bug is at the malloc call of function duplicate. The variable len is the len
 
 ## Quesiton 3
 
-![CFG](flowcharts/q3.jpg)
+![CFG](flowcharts/proj1-q3.jpg)
 
 
 
