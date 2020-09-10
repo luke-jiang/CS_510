@@ -192,6 +192,11 @@ unfeasible PPC subpaths:
 }
 ```
 
+EPC but not PPC for this CFG is not possible.
+From the CFG, we can see that all edge pairs of this CFG starts end with a different node that its starts node. That is, a edge pair `[a,b,c]` where `a == c` is not present for this particular CFG. Also, all prime paths start with node 1 and end with node 11.
+Suppose a particular edge pair `[a,b,c]` is covered in EPC but not in PPC. Based on the observations we made, it's possible to extend the starting node `a` all the way to node `1` and the end node `c` all the way to node `11`, which means that the extended path is a prime path and must be an element of the PPC set. This prime path covers `[a,b,c]`. Therefore, we have a contradiction. So all edge pairs are covered in PPC, and PPC subsumes EPC for this particular CFG. 
+
+
 
 ## Question 5
 ### addNode:

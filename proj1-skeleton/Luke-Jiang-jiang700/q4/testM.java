@@ -113,7 +113,7 @@ class testM {
 	}
 	
 	/** (3) edge-pair coverage but not prime path coverage
-	 *  Not Possible
+	 *  Not Possible, explanation in the report
 	 */
 	
 	/** (4) prime path coverage
