@@ -90,7 +90,7 @@ Valgrind would report:
 ==52345==    by 0x1092FA: main (sll_fixed.c:320)
 ```
 
-The bug is at the malloc call of function duplicate. The variable len is the length of the str field without counting the null character, but the size of char array to allocate should include the size of the null character. Therefore, changing the malloc size from len to (len + 1) fixes the bug.
+The bug is at the malloc call of function duplicate. The variable len is the length of the str field without counting the null character, but the size of char array to allocate should include the size of the null character. Also, the correct size should be the length of array times the size of array in C. Therefore, changing the malloc size from len to (len + 1) * sizeof(char) fixes the bug.
 
 ## Quesiton 3
 
@@ -121,12 +121,8 @@ TRs for EC:
 }
 ```
 
-unfeasible EC edges:
-```
-{ [6,8] }
-```
-Since `case 2` in `switch` doesn't have a `break` statement, node 6 will always
-go to 7 instead of 8.
+There are no unfeasible EC edges:
+
 
 TRs for EPC:
 ```
@@ -150,12 +146,10 @@ TRs for EPC:
 unfeasible EPC subpaths:
 ```
 {  
-  [3,6,8],[6,8,9],[6,8,10],  
   [4,8,9],  
   [5,8,10],[7,8,10]  
 }
 ```
-Paths [3,6,8],[6,8,9],[6,8,10] are unfeasible because they contain unfeasible edge [6,8]
 Path [4,8,9] is unfeasible because edge [4,8] is possible iff `args.length()` equals to 0,
 which means node 8 always takes the `false` branch.
 Path [5,8,10],[7,8,10] are unfeasible because edges [5,8],[7,8] are possible iff `args.length` is
