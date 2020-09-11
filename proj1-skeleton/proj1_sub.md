@@ -121,7 +121,7 @@ TRs for EC:
 }
 ```
 
-There are no unfeasible EC edges:
+There are no infeasible EC edges:
 
 
 TRs for EPC:
@@ -143,16 +143,16 @@ TRs for EPC:
 }
 ```
 
-unfeasible EPC subpaths:
+infeasible EPC subpaths:
 ```
 {  
   [4,8,9],  
   [5,8,10],[7,8,10]  
 }
 ```
-Path [4,8,9] is unfeasible because edge [4,8] is possible iff `args.length()` equals to 0,
+Path [4,8,9] is infeasible because edge [4,8] is possible iff `args.length()` equals to 0,
 which means node 8 always takes the `false` branch.
-Path [5,8,10],[7,8,10] are unfeasible because edges [5,8],[7,8] are possible iff `args.length` is
+Path [5,8,10],[7,8,10] are infeasible because edges [5,8],[7,8] are possible iff `args.length` is
 greater than zero, which means node 8 always takes the `true` branch.
 
 TRs for PPC:
@@ -169,7 +169,7 @@ TRs for PPC:
     [1,3,7,8,9,11],  
 }
 ```
-unfeasible PPC subpaths:
+infeasible PPC subpaths:
 ```
 {  
     [1,2,3,4,8,9,11]  
