@@ -99,7 +99,7 @@ The bug is at the malloc call of function duplicate. The variable len is the len
 
 
 ## Question 4
-(a)  
+### (a)  
 TRs for NC:
 ```
 {1,2,3,4,5,6,7,8,9,10,11}
@@ -185,10 +185,10 @@ infeasible PPC subpaths:
 ```
 The infeasible subpaths all contain subpaths from the infeasible EPC subpaths, so they
 are infeasible.  
-(b)  
+### (b)  
 EPC but not PPC for this CFG is not possible.  
 From the CFG, we can see that all edge pairs of this CFG starts end with a different node that its starts node. That is, a edge pair `[a,b,c]` where `a == c` is not present for this particular CFG. Also, all prime paths start with node 1 and end with node 11.
-Suppose a particular edge pair `[a,b,c]` is covered in EPC but not in PPC. Based on the observations we made, it's possible to extend the starting node `a` all the way to node `1` and the end node `c` all the way to node `11`, which means that the extended path is a prime path and must be an element of the PPC set. This prime path covers `[a,b,c]`. Therefore, we have a contradiction. So all edge pairs are covered in PPC, and PPC subsumes EPC for this particular CFG.
+Suppose a particular edge pair `[a,b,c]` is covered in EPC but not in PPC. Based on the observations we made, it's possible to extend the starting node `a` all the way to node `1` and the end node `c` all the way to node `11`, which means that the extended path is a prime path and must be an element of the PPC set. This prime path covers `[a,b,c]`. Therefore, we have a contradiction. 
 
 
 
@@ -198,9 +198,9 @@ For function `addNode`, the test suite achieves NC and EC. The CFG of my impleme
 ![CFG](flowcharts/proj1-addNode.jpg)  
 From `createCFG()`, we know that initially the graph contains 90 nodes, which have positions 0 to 89. Therefore, when `addNode` is called, it will traverse the for loop multiple times and then it will discover that the node to add is not in `nodes`, so the program will create the node to add, and insert it into `nodes`. Thus, `addNode` achieves node coverage and it covers all edges except the edge [4, 6], which happens when the node to add is already contained by `nodes`. This edge is covered by `addNode_duplicate`. Therefore, the test suite achieves EC as well.
 ### addEdge:
-For function `addNode`, the test suite doesn't achieve NC or EC. The CFG of my implementation is the following:  
+For function `addEdge`, the test suite achieves NC or EC. The CFG of my implementation is the following:  
 ![CFG](flowcharts/proj1-addEdge.jpg)  
-Test case `addEdge` adds an edge whose two vertices are absent in `nodes`. Based on this semantics, it covers nodes [1,2,3,4,6,8] and edges [1,2], [2,3], [3,4], [4,6], [6,2], [2,8]. Test case `addEdge_oneNewNode` adds an edge whose first vertex is already present in `nodes`. This test case covers an additional node 5 and edges [4,5], [5,2]. However, edges [6,7], [7,2] and node 7 are not covered, because the second vertex is not a new node. Therefore, I created an additional test case `addEdge_twoNewNodes` which adds an edge of two nodes that are already present in `nodes`. Now all edges and vertices are covered.
+Since my implementation adds the two vertices of the input edge into `nodes`, the for loop will eventually find the two vertices in `nodes`, so all nodes and edges pertaining to the for loop are covered. The block 8 will also be covered since the test case `addEdge` is not present in `edges`.
 ### deleteNode:
 For function `deleteNode`, the test suite achieves NC and EC. The CFG of my implementation is the following, with the `foreach` loop translated with an explicit iterator:  
 ![CFG](flowcharts/proj1-deleteNode.jpg)  
@@ -208,7 +208,7 @@ Test case `deleteNode_missing` deletes a single node that is present in `nodes`.
 ### deleteEdge:
 For function `deleteEdge`, the test suite achieves NC and EC. The CFG of my implementation is the following:  
 ![CFG](flowcharts/proj1-deleteEdge.jpg)  
-Test case `deleteEdge` deletes an edge whose nodes are present in `nodes` and the edge itself is also present. Based on this semantics, the test case covers all the nodes and all edges except [8, 10], which happens when one of the vertices of the edge to delete is not present in `nodes`. This edge is covered by `deleteEdge_missing`, which tries to delete an edge whose vertices are not present in `nodes`. Therefore, the test suite achieves full NC and EC.
+Test case `deleteEdge` deletes an edge whose nodes are present in `nodes` and the edge itself is also present. Based on this semantics, the test case covers all the nodes and all edges except [8, 10], which is covered by `deleteEdge_missing`. Therefore, the test suite achieves full NC and EC.
 ### isReachable:
 For function `isReachable`, the test suite achieves NC and EC. The CFG of my implementation is the following:  
 ![CFG](flowcharts/proj1-isReachable.jpg)  

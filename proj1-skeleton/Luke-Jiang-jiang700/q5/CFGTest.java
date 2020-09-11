@@ -78,7 +78,7 @@ public class CFGTest {
         CFG.Node nn = new CFG.Node(1001, m_m, m);
         assertTrue(cfg.nodes.contains(nn));
     }
-    
+    /*
     @Test
     public void addEdge_twoNewNodes() {
         cfg.addNode(1000, m_m, m);
@@ -87,7 +87,7 @@ public class CFGTest {
 
         CFG.Node nn = new CFG.Node(1001, m_m, m);
         assertTrue(cfg.nodes.contains(nn));
-    }
+    }*/
     
     @Test
     public void addNode_duplicate() {
