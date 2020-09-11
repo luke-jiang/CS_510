@@ -253,12 +253,12 @@ public class CFGTest {
         assertFalse(cfg.isReachable(0, m_m, m, 1000, m_m, m));
     }
     
-    
+    /*
     @Test
     public void reachable_loop() {
     	cfg.addEdge(2, m_m, m, 1, m_m, m);
         assertTrue(cfg.isReachable(0, m_m, m, 3, m_m, m));
-    }
+    }*/
 	
 }
 
