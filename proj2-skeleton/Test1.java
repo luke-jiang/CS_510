@@ -1,15 +1,12 @@
-package proj2;
-
 import java.util.*;
 import java.io.*;
 import java.io.FileNotFoundException;
 
 
-// Scratch Implementation
 public class Test1 {
 	
 	// TODO: incorporate into args of main
-	static String path = "/Users/lukejiang/eclipse-workspace/proj2/src/proj2/main.callgraph";
+	static String path = "/Users/lukejiang/eclipse-workspace/proj2/src/proj2/httpd.callgraph";
 	static double T_CONFIDENCE = 0.65;
 	static int T_SUPPORT = 3;
 	
@@ -25,7 +22,9 @@ public class Test1 {
 			System.out.print("pair: (" + otherfun + ", " + fun + "), ");
 		}
 		System.out.print("support: " + support + ", ");
-		System.out.println("confidence: " + confidence * 100 + "%");
+		System.out.print("confidence: ");
+		System.out.printf("%.2f", confidence * 100); 
+		System.out.println("%");
 	}
 	
 	public static void analyze(String fun1) {
