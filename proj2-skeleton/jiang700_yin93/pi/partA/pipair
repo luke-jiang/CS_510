@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Generate call graph
+CALL_GRAPH="$1.callgraph"
+if test ! -f "$CALL_GRAPH" 
+then
+    opt -print-callgraph $1 1>/dev/null 2> $CALL_GRAPH
+fi
+
+java -cp ../src pipair.Pipair $CALL_GRAPH $2 $3 2>/dev/null
+
+#java -cp ./:./src:./src/pipair pipair.Pipair ./test2/test2.bc.callgraph 3 65
