@@ -5,11 +5,9 @@ import java.io.FileNotFoundException;
 
 public class Test1 {
 
-	// TODO: incorporate into args of main
-	// static String path = "/Users/lukejiang/eclipse-workspace/proj2/src/proj2/httpd.callgraph";
-        static String path = "/homes/jiang700/Desktop/CS_510/proj2-skeleton/test3/httpd.callgraph";
-	static double T_CONFIDENCE = 0.65;
+	static String path = "/homes/jiang700/Desktop/CS_510/proj2-skeleton/test3/httpd.callgraph";
 	static int T_SUPPORT = 3;
+	static double T_CONFIDENCE = 0.65;
 
 	// callee to caller map
 	static Map<String, Set<String>> cmap = new HashMap<>();
@@ -28,34 +26,7 @@ public class Test1 {
 		System.out.println("%");
 	}
 
-	public static void analyze(String fun1) {
-		Set<String> S1 = cmap.get(fun1);
-
-		for (String fun2 : cmap.keySet()) {
-			if (fun2.equals(fun1)) continue;
-			Set<String> S2 = cmap.get(fun2);
-
-			// compute the intersection of thisS and otherDS
-			Set<String> join = new HashSet<>(S1);
-			join.retainAll(S2);
-
-			// check if support satisfies threshold
-			int support = join.size();
-			if (support < T_SUPPORT) continue;
-
-			// check if confidence satisfies threshold
-			double confidence = support * 1.0 / S1.size();
-			if (confidence < T_CONFIDENCE) continue;
-
-			Set<String> scopes = new HashSet<>(S1);
-			scopes.removeAll(join);
-			for (String scope : scopes) {
-				emit(fun1, fun2, scope, support, confidence);
-			}
-		}
-	}
-
-  public static void analyze2(String fun1, String fun2) {
+	public static void analyze(String fun1, String fun2) {
 		Set<String> S1 = cmap.get(fun1);
 		Set<String> S2 = cmap.get(fun2);
 
@@ -77,7 +48,6 @@ public class Test1 {
 			}
 		}
 
-
 		double confidence1 = support * 1.0 / S2.size();
 		if (confidence1 >= T_CONFIDENCE) {
 			Set<String> scopes = new HashSet<>(S2);
@@ -97,20 +67,23 @@ public class Test1 {
 			}
 			System.out.println();
 		}
-		return;
 	}
 
 
 	public static void main(String[] args) {
-	        long start = System.currentTimeMillis();;
+		path = args[0];
+		T_SUPPORT = Integer.valueOf(args[1]);
+		T_CONFIDENCE = Integer.valueOf(args[2]);
+
+		long start = System.currentTimeMillis();;
 		// read form file
 		File openFile = new File(path);
 		Scanner scanner;
 		try {
-			 scanner = new Scanner(openFile);
+		scanner = new Scanner(openFile);
 		} catch (FileNotFoundException e) {
-			System.out.println("file not found");
-			return;
+		System.out.println("file not found");
+		return;
 		}
 
 		// process each line, build cmap
@@ -139,44 +112,41 @@ public class Test1 {
 		/*
 
 		while (scanner.hasNextLine()) {
-			String[] callerLine = scanner.nextLine().split("'");
-			if (callerLine.length <= 1) {
-				// ignore until blank line
-				while (scanner.hasNextLine() && !scanner.nextLine().isBlank());
+		String[] callerLine = scanner.nextLine().split("'");
+		if (callerLine.length <= 1) {
+		// ignore until blank line
+		while (scanner.hasNextLine() && !scanner.nextLine().isBlank());
 
-			} else {
-				caller = callerLine[1];
-				// System.out.println(caller);
-				while (scanner.hasNextLine()) {
-					String next = scanner.nextLine();
-					if (next.isBlank()) break;
-					String[] calleeLine = next.split("'");
-					if (calleeLine.length <= 1) continue;
-					String func = calleeLine[1];
-					Set<String> s = cmap.getOrDefault(func, new HashSet<>());
-					s.add(caller);
-					cmap.put(func, s);
-				}
-			}
-			}*/
+		} else {
+		caller = callerLine[1];
+		// System.out.println(caller);
+		while (scanner.hasNextLine()) {
+		String next = scanner.nextLine();
+		if (next.isBlank()) break;
+		String[] calleeLine = next.split("'");
+		if (calleeLine.length <= 1) continue;
+		String func = calleeLine[1];
+		Set<String> s = cmap.getOrDefault(func, new HashSet<>());
+		s.add(caller);
+		cmap.put(func, s);
+		}
+		}
+		}*/
 		scanner.close();
 
 		// analyze each function in cmap's key set
 		/*for (String f : cmap.keySet()) {
-			analyze(f);
-		  }*/
+		analyze(f);
+		}*/
 
 		List<String> ls = new ArrayList<String>(cmap.keySet());
 		for (int i = 0; i < ls.size(); i++) {
 			for (int j = i + 1; j < ls.size(); j++) {
-				analyze2(ls.get(i), ls.get(j));
+				analyze(ls.get(i), ls.get(j));
 			}
 		}
 
 		long end = System.currentTimeMillis();;
-                System.out.println((end - start) + " ms");
-		return;
+		System.out.println((end - start) + " ms");
 	}
-
-
 }
