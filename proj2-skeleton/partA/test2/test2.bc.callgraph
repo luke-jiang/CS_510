@@ -1,0 +1,66 @@
+Call graph node <<null function>><<0x555f0308ec30>>  #uses=0
+  CS<0x0> calls function 'main'
+  CS<0x0> calls function 'scope1'
+  CS<0x0> calls function 'scope2'
+  CS<0x0> calls function 'scope3'
+  CS<0x0> calls function 'scope4'
+  CS<0x0> calls function 'scope5'
+  CS<0x0> calls function 'scope6'
+  CS<0x0> calls function 'B'
+  CS<0x0> calls function 'D'
+  CS<0x0> calls function 'printf'
+  CS<0x0> calls function 'A'
+  CS<0x0> calls function 'C'
+
+Call graph node for function: 'A'<<0x555f0308ed00>>  #uses=5
+  CS<0x555f030f5980> calls function 'printf'
+
+Call graph node for function: 'B'<<0x555f0308f080>>  #uses=6
+  CS<0x555f030f54f0> calls function 'printf'
+
+Call graph node for function: 'C'<<0x555f0308f010>>  #uses=3
+  CS<0x555f030f5bf0> calls function 'printf'
+
+Call graph node for function: 'D'<<0x555f031003d0>>  #uses=6
+  CS<0x555f030f5710> calls function 'printf'
+
+Call graph node for function: 'main'<<0x555f0308ecd0>>  #uses=1
+  CS<0x555f030e9c68> calls function 'scope1'
+  CS<0x555f030e9bf8> calls function 'scope2'
+  CS<0x555f030e9b88> calls function 'scope3'
+  CS<0x555f030e9b18> calls function 'scope4'
+  CS<0x555f030e9a78> calls function 'scope5'
+  CS<0x555f030e99e8> calls function 'scope6'
+
+Call graph node for function: 'printf'<<0x555f03100400>>  #uses=5
+  CS<0x0> calls external node
+
+Call graph node for function: 'scope1'<<0x555f0308ed70>>  #uses=3
+  CS<0x555f030e9978> calls function 'A'
+  CS<0x555f030f3e78> calls function 'B'
+  CS<0x555f030f3f18> calls function 'C'
+  CS<0x555f030f3fb8> calls function 'D'
+
+Call graph node for function: 'scope2'<<0x555f0308ee10>>  #uses=2
+  CS<0x555f030f4198> calls function 'A'
+  CS<0x555f030f4238> calls function 'C'
+  CS<0x555f030f42d8> calls function 'D'
+
+Call graph node for function: 'scope3'<<0x555f0308eda0>>  #uses=2
+  CS<0x555f030f4508> calls function 'A'
+  CS<0x555f030f4578> calls function 'B'
+
+Call graph node for function: 'scope4'<<0x555f0308eec0>>  #uses=2
+  CS<0x555f030f4758> calls function 'B'
+  CS<0x555f030f47f8> calls function 'D'
+  CS<0x555f030f4898> calls function 'scope1'
+
+Call graph node for function: 'scope5'<<0x555f0308ef30>>  #uses=2
+  CS<0x555f030f4c18> calls function 'B'
+  CS<0x555f030f4cb8> calls function 'D'
+  CS<0x555f030f4d58> calls function 'A'
+
+Call graph node for function: 'scope6'<<0x555f0308efa0>>  #uses=2
+  CS<0x555f030f4f38> calls function 'B'
+  CS<0x555f030f4fd8> calls function 'D'
+
