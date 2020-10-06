@@ -6,7 +6,8 @@ import java.io.FileNotFoundException;
 public class Test1 {
 	
 	// TODO: incorporate into args of main
-	static String path = "/Users/lukejiang/eclipse-workspace/proj2/src/proj2/httpd.callgraph";
+	// static String path = "/Users/lukejiang/eclipse-workspace/proj2/src/proj2/httpd.callgraph";
+        static String path = "/homes/jiang700/Desktop/CS_510/proj2-skeleton/test3/httpd.callgraph";
 	static double T_CONFIDENCE = 0.65;
 	static int T_SUPPORT = 3;
 	
@@ -53,6 +54,39 @@ public class Test1 {
 			}
 		}
 	}
+
+        public static void analyze2(String fun1, String fun2) {
+		Set<String> S1 = cmap.get(fun1);
+		Set<String> S2 = cmap.get(fun2);
+		
+		// compute the intersection of thisS and otherDS
+		Set<String> join = new HashSet<>(S1);
+		join.retainAll(S2);
+		
+		// check if support satisfies threshold
+		int support = join.size();
+		if (support < T_SUPPORT) return;
+		
+		// check if confidence satisfies threshold
+		double confidence = support * 1.0 / S1.size();
+		if (confidence >= T_CONFIDENCE) {
+			Set<String> scopes = new HashSet<>(S1);
+			scopes.removeAll(join);
+			for (String scope : scopes) {
+				emit(fun1, fun2, scope, support, confidence);
+			}
+		}
+		
+		
+		double confidence1 = support * 1.0 / S2.size();
+		if (confidence1 >= T_CONFIDENCE) {
+			Set<String> scopes = new HashSet<>(S2);
+			scopes.removeAll(join);
+			for (String scope : scopes) {
+				emit(fun2, fun1, scope, support, confidence);
+			}
+		}
+	}
 	
 	// debugging method for printing cmap
 	public static void printMap() {
@@ -68,6 +102,7 @@ public class Test1 {
 	
 	
 	public static void main(String[] args) {
+	        long start = System.currentTimeMillis();;
 		// read form file
 		File openFile = new File(path);
 		Scanner scanner;
@@ -81,6 +116,8 @@ public class Test1 {
 		// process each line, build cmap
 		boolean ignore = false;
 		String caller = "";
+
+		
 		while (scanner.hasNextLine()) {
 			String line = scanner.nextLine().trim();
 			if (line.startsWith("Call graph node <<null function>>")) {
@@ -98,12 +135,46 @@ public class Test1 {
 				}
 			}
 		}
+
+		/*
+
+		while (scanner.hasNextLine()) {
+			String[] callerLine = scanner.nextLine().split("'");
+			if (callerLine.length <= 1) {
+				// ignore until blank line
+				while (scanner.hasNextLine() && !scanner.nextLine().isBlank());
+				
+			} else {
+				caller = callerLine[1];
+				// System.out.println(caller);
+				while (scanner.hasNextLine()) {
+					String next = scanner.nextLine();
+					if (next.isBlank()) break;
+					String[] calleeLine = next.split("'");
+					if (calleeLine.length <= 1) continue;
+					String func = calleeLine[1];
+					Set<String> s = cmap.getOrDefault(func, new HashSet<>());
+					s.add(caller);
+					cmap.put(func, s);
+				}
+			}
+			}*/
 		scanner.close();
 		
 		// analyze each function in cmap's key set
-		for (String f : cmap.keySet()) {
+		/*for (String f : cmap.keySet()) {
 			analyze(f);
+		  }*/
+
+		List<String> ls = new ArrayList<String>(cmap.keySet());
+		for (int i = 0; i < ls.size(); i++) {
+			for (int j = i + 1; j < ls.size(); j++) {
+				analyze2(ls.get(i), ls.get(j));
+			}
 		}
+
+		long end = System.currentTimeMillis();;
+                System.out.println((end - start) + " ms");
 		return;
 	}
 	
