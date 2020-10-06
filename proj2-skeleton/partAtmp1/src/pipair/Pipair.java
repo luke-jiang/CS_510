@@ -147,6 +147,6 @@ public class Pipair {
 		}
 
 		long end = System.currentTimeMillis();;
-		System.out.println((end - start) + " ms");
+		// System.out.println((end - start) + " ms");
 	}
 }
