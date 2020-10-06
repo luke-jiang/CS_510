@@ -73,7 +73,7 @@ public class Test1 {
 	public static void main(String[] args) {
 		path = args[0];
 		T_SUPPORT = Integer.valueOf(args[1]);
-		T_CONFIDENCE = Integer.valueOf(args[2]);
+		T_CONFIDENCE = (double) (Integer.valueOf(args[2]) * 1.0 / 100);
 
 		long start = System.currentTimeMillis();;
 		// read form file
