@@ -5,12 +5,15 @@ import java.util.*;
 
 public class Pipair {
 
-	static String path = "/homes/jiang700/Desktop/CS_510/proj2-skeleton/test3/httpd.callgraph";
+	static String path = "";
 	static int T_SUPPORT = 3;
 	static double T_CONFIDENCE = 0.65;
 
 	// callee to caller map
 	static Map<String, Set<String>> cmap = new HashMap<>();
+
+	// caller to callee map
+	static Map<String, Set<String>> cmapR = new HashMap<>();
 
 	// emit one line of error message
 	public static void emit(String fun, String otherfun, String scope, int support, double confidence) {
@@ -55,6 +58,24 @@ public class Pipair {
 			for (String scope : scopes) {
 				emit(fun2, fun1, scope, support, confidence1);
 			}
+		}
+	}
+
+	public static void expand() {
+		Set<String> common = new HashSet<>(cmap.keySet());
+		common.retainAll(cmapR.keySet());
+
+		for (String func : common) {
+			Set<String> scopes = cmap.get(func);
+			Set<String> callers = cmapR.get(func);
+			for (String caller : callers) {
+				Set<String> S = cmap.get(caller);
+				S.addAll(scopes);
+			}
+		}
+
+		for (String func : common) {
+			cmap.remove(func);
 		}
 	}
 
@@ -107,6 +128,10 @@ public class Pipair {
 					Set<String> s = cmap.getOrDefault(func, new HashSet<>());
 					s.add(caller);
 					cmap.put(func, s);
+
+					Set<String> s1 = cmapR.getOrDefault(caller, new HashSet<>());
+					s1.add(callee);
+					cmapR.put(caller, s1);
 				}
 			}
 		}
