@@ -125,7 +125,7 @@ public class Pipair {
 
 	public static void main(String[] args) {
 		path = args[0];
-		if (args.length == 3) {
+		if (args.length >= 3) {
 			T_SUPPORT = Integer.valueOf(args[1]);
 			T_CONFIDENCE = (double) (Integer.valueOf(args[2]) * 1.0 / 100);
 		}
