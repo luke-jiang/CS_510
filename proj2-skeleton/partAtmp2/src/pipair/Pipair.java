@@ -99,6 +99,16 @@ public class Pipair {
 				cmap.put(caller, S);
 			}
 		}
+
+		cmapR.clear();
+		// Map<String, Set<String>> cmapR1 = new HashMap<>();
+		for (String callee : cmap.keySet()) {
+			for (String caller : cmap.get(callee)) {
+				Set<String> S = cmapR.getOrDefault(caller, new HashSet<>());
+				S.add(callee);
+				cmapR.put(caller, S);
+			}
+		}
 	}
 
 	// debugging method for printing cmap
