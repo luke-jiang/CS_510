@@ -80,6 +80,27 @@ public class Pipair {
 		}
 	}
 
+	public static void expand1() {
+		Set<String> common = new HashSet<>(cmap.keySet());
+		common.retainAll(cmapR.keySet());
+
+		Map<String, Set<String>> M = new HashMap<>();
+		for (String func : common) {
+			M.put(func, cmap.get(func));
+			cmap.remove(func);
+		}
+
+		for (String func : common) {
+			Set<String> scopes = M.get(func);
+			Set<String> callers = cmapR.get(func);
+			for (String caller : callers) {
+				Set<String> S = cmap.getOrDefault(caller, new HashSet<>());
+				S.addAll(scopes);
+				cmap.put(caller, S);
+			}
+		}
+	}
+
 	// debugging method for printing cmap
 	public static void printMap() {
 		for (String key : cmap.keySet()) {
@@ -142,7 +163,7 @@ public class Pipair {
 
 
 		scanner.close();
-		if (EXPAND) expand();
+		if (EXPAND) expand1();
 
 		List<String> ls = new ArrayList<String>(cmap.keySet());
 		for (int i = 0; i < ls.size(); i++) {
