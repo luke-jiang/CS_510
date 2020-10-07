@@ -8,6 +8,7 @@ public class Pipair {
 	static String path = "";
 	static int T_SUPPORT = 3;
 	static double T_CONFIDENCE = 0.65;
+	static boolean EXPAND = false;
 
 	// callee to caller map
 	static Map<String, Set<String>> cmap = new HashMap<>();
@@ -97,8 +98,10 @@ public class Pipair {
 			T_SUPPORT = Integer.valueOf(args[1]);
 			T_CONFIDENCE = (double) (Integer.valueOf(args[2]) * 1.0 / 100);
 		}
+		if (args.length == 4) {
+			EXPAND = Boolean.valueOf(args[3]);
+		}
 
-		long start = System.currentTimeMillis();;
 		// read form file
 		File openFile = new File(path);
 		Scanner scanner;
@@ -128,43 +131,18 @@ public class Pipair {
 					Set<String> s = cmap.getOrDefault(callee, new HashSet<>());
 					s.add(caller);
 					cmap.put(callee, s);
-
-					Set<String> s1 = cmapR.getOrDefault(caller, new HashSet<>());
-					s1.add(callee);
-					cmapR.put(caller, s1);
+					if (EXPAND) {
+						Set<String> s1 = cmapR.getOrDefault(caller, new HashSet<>());
+						s1.add(callee);
+						cmapR.put(caller, s1);
+					}
 				}
 			}
 		}
 
-		/*
 
-		while (scanner.hasNextLine()) {
-		String[] callerLine = scanner.nextLine().split("'");
-		if (callerLine.length <= 1) {
-		// ignore until blank line
-		while (scanner.hasNextLine() && !scanner.nextLine().isBlank());
-
-		} else {
-		caller = callerLine[1];
-		// System.out.println(caller);
-		while (scanner.hasNextLine()) {
-		String next = scanner.nextLine();
-		if (next.isBlank()) break;
-		String[] calleeLine = next.split("'");
-		if (calleeLine.length <= 1) continue;
-		String func = calleeLine[1];
-		Set<String> s = cmap.getOrDefault(func, new HashSet<>());
-		s.add(caller);
-		cmap.put(func, s);
-		}
-		}
-		}*/
 		scanner.close();
-
-		// analyze each function in cmap's key set
-		/*for (String f : cmap.keySet()) {
-		analyze(f);
-		}*/
+		if (EXPAND) expand();
 
 		List<String> ls = new ArrayList<String>(cmap.keySet());
 		for (int i = 0; i < ls.size(); i++) {
@@ -172,8 +150,5 @@ public class Pipair {
 				analyze(ls.get(i), ls.get(j));
 			}
 		}
-
-		long end = System.currentTimeMillis();;
-		// System.out.println((end - start) + " ms");
 	}
 }
