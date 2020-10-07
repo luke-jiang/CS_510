@@ -124,10 +124,10 @@ public class Pipair {
 			} else if (line.startsWith("CS") && !ignore) {
 				String[] words = line.split("'");
 				if (words.length > 1) {
-					String func = words[1];
-					Set<String> s = cmap.getOrDefault(func, new HashSet<>());
+					String callee = words[1];
+					Set<String> s = cmap.getOrDefault(callee, new HashSet<>());
 					s.add(caller);
-					cmap.put(func, s);
+					cmap.put(callee, s);
 
 					Set<String> s1 = cmapR.getOrDefault(caller, new HashSet<>());
 					s1.add(callee);
