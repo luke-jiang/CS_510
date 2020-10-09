@@ -2,6 +2,7 @@ package pipair;
 
 import java.io.*;
 import java.util.*;
+import pipair.util.Pair;
 
 public class Pipair {
 
@@ -105,9 +106,9 @@ public class Pipair {
 			T_SUPPORT = Integer.valueOf(args[1]);
 			T_CONFIDENCE = (double) (Integer.valueOf(args[2]) * 1.0 / 100);
 		}
-		if (args.length == 4) {
-			EXPAND = Boolean.valueOf(args[3]);
-		}
+
+
+
 
 		// read form file
 		File openFile = new File(path);
