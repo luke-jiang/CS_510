@@ -5,7 +5,7 @@ import java.util.*;
 
 public class Pipair {
 
-	static String path = "/homes/jiang700/Desktop/CS_510/proj2-skeleton/test3/httpd.callgraph";
+	static String path = "";
 	static int T_SUPPORT = 3;
 	static double T_CONFIDENCE = 0.65;
 
@@ -77,15 +77,14 @@ public class Pipair {
 			T_CONFIDENCE = (double) (Integer.valueOf(args[2]) * 1.0 / 100);
 		}
 
-		long start = System.currentTimeMillis();;
 		// read form file
 		File openFile = new File(path);
 		Scanner scanner;
 		try {
-		scanner = new Scanner(openFile);
+		        scanner = new Scanner(openFile);
 		} catch (FileNotFoundException e) {
-		System.out.println("file not found");
-		return;
+		        System.out.println("file not found");
+		        return;
 		}
 
 		// process each line, build cmap
