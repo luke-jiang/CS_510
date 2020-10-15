@@ -39,21 +39,21 @@ public class Pipair {
 		if (support < T_SUPPORT) return;
 
 		// check if confidence satisfies threshold
-		double confidence = support * 1.0 / S1.size();
-		if (confidence >= T_CONFIDENCE) {
+		double confidence1 = support * 1.0 / S1.size();
+		if (confidence1 >= T_CONFIDENCE) {
 			Set<String> scopes = new HashSet<>(S1);
 			scopes.removeAll(join);
 			for (String scope : scopes) {
-				emit(fun1, fun2, scope, support, confidence);
+				emit(fun1, fun2, scope, support, confidence1);
 			}
 		}
 
-		double confidence1 = support * 1.0 / S2.size();
-		if (confidence1 >= T_CONFIDENCE) {
+		double confidence2 = support * 1.0 / S2.size();
+		if (confidence2 >= T_CONFIDENCE) {
 			Set<String> scopes = new HashSet<>(S2);
 			scopes.removeAll(join);
 			for (String scope : scopes) {
-				emit(fun2, fun1, scope, support, confidence1);
+				emit(fun2, fun1, scope, support, confidence2);
 			}
 		}
 	}
@@ -81,10 +81,10 @@ public class Pipair {
 		File openFile = new File(path);
 		Scanner scanner;
 		try {
-		        scanner = new Scanner(openFile);
+			scanner = new Scanner(openFile);
 		} catch (FileNotFoundException e) {
-		        System.out.println("file not found");
-		        return;
+      System.out.println("file not found");
+      return;
 		}
 
 		// process each line, build cmap
@@ -109,36 +109,7 @@ public class Pipair {
 				}
 			}
 		}
-
-		/*
-
-		while (scanner.hasNextLine()) {
-		String[] callerLine = scanner.nextLine().split("'");
-		if (callerLine.length <= 1) {
-		// ignore until blank line
-		while (scanner.hasNextLine() && !scanner.nextLine().isBlank());
-
-		} else {
-		caller = callerLine[1];
-		// System.out.println(caller);
-		while (scanner.hasNextLine()) {
-		String next = scanner.nextLine();
-		if (next.isBlank()) break;
-		String[] calleeLine = next.split("'");
-		if (calleeLine.length <= 1) continue;
-		String func = calleeLine[1];
-		Set<String> s = cmap.getOrDefault(func, new HashSet<>());
-		s.add(caller);
-		cmap.put(func, s);
-		}
-		}
-		}*/
 		scanner.close();
-
-		// analyze each function in cmap's key set
-		/*for (String f : cmap.keySet()) {
-		analyze(f);
-		}*/
 
 		List<String> ls = new ArrayList<String>(cmap.keySet());
 		for (int i = 0; i < ls.size(); i++) {
@@ -146,8 +117,5 @@ public class Pipair {
 				analyze(ls.get(i), ls.get(j));
 			}
 		}
-
-		long end = System.currentTimeMillis();;
-		// System.out.println((end - start) + " ms");
 	}
 }
