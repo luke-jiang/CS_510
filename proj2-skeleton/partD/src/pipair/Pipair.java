@@ -11,16 +11,14 @@ import pipair.util.Pair;
 public class Pipair {
 
 	static String path = "";
-	static double T_CONFIDENCE = 0.65;
 	static int T_SUPPORT = 3;
-
+	static double T_CONFIDENCE = 0.65;
 
 	// callee to caller map
 	static Map<String, Set<String>> cmap = new HashMap<>();
 
 	// map of a (caller, caller) pair to callee's order in caller
 	static Map<Pair<String, String>, Integer> cmapOrder = new HashMap<>();
-
 
 	// emit one line of error message
 	public static void emit(String fun, String otherfun, String scope, int support, double confidence) {
