@@ -1,3 +1,8 @@
+// CS 510
+// Project 2 part i.a
+// Luke Jiang, Sihao Yin
+
+
 package pipair;
 
 import java.io.*;
