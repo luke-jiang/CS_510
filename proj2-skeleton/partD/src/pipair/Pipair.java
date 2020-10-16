@@ -1,3 +1,7 @@
+// CS 510
+// Project 2 part i.d
+// Luke Jiang, Sihao Yin
+
 package pipair;
 
 import java.io.*;
@@ -13,17 +17,15 @@ public class Pipair {
 
 	// callee to caller map
 	static Map<String, Set<String>> cmap = new HashMap<>();
+
+	// map of a (caller, caller) pair to callee's order in caller
 	static Map<Pair<String, String>, Integer> cmapOrder = new HashMap<>();
 
 
 	// emit one line of error message
 	public static void emit(String fun, String otherfun, String scope, int support, double confidence) {
 		System.out.print("bug: " + fun + " in " + scope + ", ");
-		// if (fun.compareTo(otherfun) < 0) {
-			// System.out.print("pair: (" + fun + ", " + otherfun + "), ");
-		// } else {
-			System.out.print("pair: (" + otherfun + ", " + fun + "), ");
-		// }
+		System.out.print("pair: (" + otherfun + ", " + fun + "), ");
 		System.out.print("support: " + support + ", ");
 		System.out.print("confidence: ");
 		System.out.printf("%.2f", confidence * 100);
@@ -53,7 +55,6 @@ public class Pipair {
 				emit(fun2, fun1, scope, support, confidence2);
 			}
 		}
-
 	}
 
 	public static void analyze(String fun1, String fun2) {
@@ -92,6 +93,7 @@ public class Pipair {
 		}
 	}
 
+	// debugging method for printing cmapOrder
 	public static void printMapOrder(Map<Pair<String, String>, Integer> map) {
 		for (Pair<String, String> key : map.keySet()) {
 			System.out.print("function pair " + key + " : ");
@@ -99,16 +101,12 @@ public class Pipair {
 		}
 	}
 
-
 	public static void main(String[] args) {
 		path = args[0];
 		if (args.length >= 3) {
 			T_SUPPORT = Integer.valueOf(args[1]);
 			T_CONFIDENCE = (double) (Integer.valueOf(args[2]) * 1.0 / 100);
 		}
-
-
-
 
 		// read form file
 		File openFile = new File(path);
@@ -120,8 +118,7 @@ public class Pipair {
 			return;
 		}
 
-		// process each line, build cmap
-
+		// process each line, build cmap and cmapOrder
 		boolean ignore = false;
 		String caller = "";
 		int order = 0;
