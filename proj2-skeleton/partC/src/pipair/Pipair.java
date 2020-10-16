@@ -159,7 +159,8 @@ public class Pipair {
 		scanner.close();
 
 		if (EXPAND) {
-			expand(); expand(); expand();
+			expand();
+			// expand(); expand();
 		}
 
 		List<String> ls = new ArrayList<String>(cmap.keySet());
