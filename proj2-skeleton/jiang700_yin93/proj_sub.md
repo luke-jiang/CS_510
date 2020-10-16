@@ -42,6 +42,8 @@ Yes, there are some real bugs, but he also found false positives.
 
   In ap_regname, apr_array_push is called by not apr_array_make. This is in fact not a bug, since we are pushing elements to an array called names, which is an input for this function, this function is not creating a new array and populating it.  
 
+
+
 ### \(c\) Inter-Procedural Analysis.
 
   In this part, we designed and implemented a new algorithm to reduce false positives.
@@ -91,21 +93,15 @@ In this section, we propose another algorithm to further reduce false positives.
 #### (i) Algorithm Overview
 The main idea is to take the order of function calls into account. More specifically, define the support of `(A, B)` as the number of times A is called before B in a scope. Thus, `(A, B)` is not equal to `(B, A)` in general.
 
-We maintain a new data structure `cmapOrder` that maps a pair of caller and callee (caller, callee) to the callee's call order in caller. This data structure is built while reading the input graph along with `cmap`. Once `cmapOrder` is built, we do the following in `analyze`:
+We maintain a new data structure `cmapOrder` that maps a pair of caller and callee (caller, callee) to the callee's call order in caller. This data structure is built while reading the input graph along with `cmap`. Once `cmapOrder` is built, we do the following in `analyzeOrder`:
 
 1. Like in part i.a, we first find the intersection of `fun1`'s caller and `fun2`'s caller, call it `join`
-2. Then, we divide `join` into two parts: `join12` and `join21`, where `join12` contains the callers that call `fun1` before `fun2` and caller21 is the rest. 
-3. We feed `join12` and `join21` separately to a helper function, along with other infos.
-4. The helper  
+2. Then, we divide `join` into two parts: `join12` and `join21`, where `join12` contains the callers that call `fun1` before `fun2` and caller21 is the rest. This is the part where (A, B) and (B, A) are differentiated.
+3. We feed `join12` and `join21` separately to a `analyze` function, along with other infos.
+4. The `analyze` function is semantically identical to the `analyze` in part i.a.
 
-Our main idea is to add constrains to function pairs based on the call sequence. It will help us to ignore some meaningless function pairs. According to the false positives we have observed, we create the following constrain.
+To facilitate our implementation, we used a hashmap-friendly implementation of Pair found online: https://stackoverflow.com/questions/156275/what-is-the-equivalent-of-the-c-pairl-r-in-java.
 
-Take function order inside pairs into consideration. Suppose we have two functin pairs `(A, B)` and `(B, A)`, and `(A, B)` appears $count_{AB}$ times while `(B, A)` appears $count_{BA}$ times. If $count_{AB} >> count_{BA}$, it may indicate that we have to call function `A` before `B`, which means `(B, A)` is not a valid pair. Thereby, the constrain we come up with is:
-- If $\frac{count_{AB}}{count_{BA}}>90\%$, we believe that A must be called before B.
-
-Therefore, in this case, we will treat the pair `(B, A)` as a bug calling `B` without `A` and a bug calling `A` without `B`.
-
-Moreover, we keep doing inter-procedural analysis like PartC.
 
 #### (ii) Evaluation
 We run our program on `test3` with both (3, 65) and (10, 80) and were successful in removing the false positive pair `(apr_array_make, apr_hook_debug_show)` identified in b.iii. It also reports fewer bugs in general. Here are the details:
