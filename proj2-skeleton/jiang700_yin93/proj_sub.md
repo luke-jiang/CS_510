@@ -46,41 +46,22 @@ Yes, there are some real bugs, but he also found false positives.
 
 ### \(c\) Inter-Procedural Analysis.
 
-  In this part, we designed and implemented a new algorithm to reduce false positives.
+In this part, we designed and implemented a new algorithm to reduce false positives.
 
 #### (i) Algorithm Overview
+We maintain two data strctures: a callee to caller map `cmap` and a caller to callee map `cmapR`. Both are built when the input CFG is processed. We also created a mew method `expand`, which updates both `cmap` and `cmapR` to the state after one level of inlining. After inlining, we feed the updated `cmap` and `cmapR` to `analyze`, which is the same function used in i.a.  
 
-  To dig into the relationship between methods deeper, our main idea of our solution is to expand each callee function to one level. For example, in this code snippet `main.c` from test2:
-  ~~~C
-  void scope1() {
-    A();
-    B();
-    C();
-    D();
-  }
+The majority of code for this part is implemented in `expand`. In this function, we do the following:
+1. We find the intersection of the `keySet` of `cmap` and `cmapR`, and call it `common`. `common` contains the functions that are both callers and callees in the program.
+2. We remove the functions that are in `cmap` and `common` from `cmap`, and store them in a new map `M`.
+3. For each functions in common, we get its callers and callees (`scopes`), and join the callees into callers. This is the primary job of `expand` that performs inlining
+4. Finally, rebuild `cmapR` from `cmap`.  
 
-  ...
-
-  void scope4() {
-    B();
-    D();
-    scope1();
-  }
-  ~~~
-
-  We expand `scope4()` from `B()`, `D()`, `scope1()` to `B()`, `D()`, `A()`, `B()`, `C()`, `D()`.
-
-
-
-#### (ii) Implemetation
-We implemente the Algorithm based on the code of partA. We add an extra boolean argument, `ENABLE_IP`, following the two thresholds. Its default value is `true`. For example, if you want to run test case 1 with inter-procedural analysis, you can run
+The new algorithm can be run by the following command:
 ```bash
-$ pipair test1.bc 3 65 true
+pipair test1.bc 3 65 true
 ```
-, or you can just use defaul values which will enable inter-procedural analysis
-```bash
-$ pipair test1.bc
-```
+where the last input specifies if inlining is enabled or not. The default is false.
 
 #### (iii) Experiments
 We run our program on `test3` with both (3, 65) and (10, 80) and were successful in removing the false positive pair `(apr_array_make, apr_hook_debug_show)` identified in b.iii. However, the number of bugs reported increases in general. We concluded that this is due to the inflation of confidence after inlining.
