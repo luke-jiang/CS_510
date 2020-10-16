@@ -80,10 +80,44 @@ $ pipair test1.bc 3 65 true
 $ pipair test1.bc
 ```
 
-
-
 #### (iii) Experiments
 We run our program on `test3` with both (3, 65) and (10, 80) and were successful in removing the false positive pair `(apr_array_make, apr_hook_debug_show)` identified in b.iii. However, the number of bugs reported increases in general. We concluded that this is due to the inflation of confidence after inlining.
+
+
+### (d) Improving the Solutions
+
+In this section, we propose another algorithm to further reduce false positives.
+
+#### (i) Algorithm Overview
+The main idea is to take the order of function calls into account. More specifically, define the support of `(A, B)` as the number of times A is called before B in a scope. Thus, `(A, B)` is not equal to `(B, A)` in general.
+
+We maintain a new data structure `cmapOrder` that maps a pair of caller and callee (caller, callee) to the callee's call order in caller. This data structure is built while reading the input graph along with `cmap`. Once `cmapOrder` is built, we do the following in `analyze`:
+
+1. Like in part i.a, we first find the intersection of `fun1`'s caller and `fun2`'s caller, call it `join`
+2. Then, we divide `join` into two parts: `join12` and `join21`, where `join12` contains the callers that call `fun1` before `fun2` and caller21 is the rest. 
+3. We feed `join12` and `join21` separately to a helper function, along with other infos.
+4. The helper  
+
+Our main idea is to add constrains to function pairs based on the call sequence. It will help us to ignore some meaningless function pairs. According to the false positives we have observed, we create the following constrain.
+
+Take function order inside pairs into consideration. Suppose we have two functin pairs `(A, B)` and `(B, A)`, and `(A, B)` appears $count_{AB}$ times while `(B, A)` appears $count_{BA}$ times. If $count_{AB} >> count_{BA}$, it may indicate that we have to call function `A` before `B`, which means `(B, A)` is not a valid pair. Thereby, the constrain we come up with is:
+- If $\frac{count_{AB}}{count_{BA}}>90\%$, we believe that A must be called before B.
+
+Therefore, in this case, we will treat the pair `(B, A)` as a bug calling `B` without `A` and a bug calling `A` without `B`.
+
+Moreover, we keep doing inter-procedural analysis like PartC.
+
+#### (ii) Evaluation
+We run our program on `test3` with both (3, 65) and (10, 80) and were successful in removing the false positive pair `(apr_array_make, apr_hook_debug_show)` identified in b.iii. It also reports fewer bugs in general. Here are the details:
+
+- test1 with threshhold=(3,65): Same.
+- test1 with threshhold=(10,80): Same.
+- test2 with threshhold=(3,65): 1 missing, 3 extra and 4 total
+- test2 with threshhold=(10,80): Same.
+- test3 with threshhold=(3,65): 144 missing, 198 extra and 253 total.
+- test3 with threshhold=(10,80): 8 missing, 11 extra and 25 total.
+
+
 
 
 ## Part II

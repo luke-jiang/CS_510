@@ -33,7 +33,7 @@ public class Pipair {
 	}
 
 
-	public static void helper(String fun1, String fun2, Set<String> join, Set<String> S1, Set<String> S2) {
+	public static void analyze(String fun1, String fun2, Set<String> join, Set<String> S1, Set<String> S2) {
 		int support = join.size();
 		if (support < T_SUPPORT) return;
 
@@ -57,7 +57,7 @@ public class Pipair {
 		}
 	}
 
-	public static void analyze(String fun1, String fun2) {
+	public static void analyzeOrder(String fun1, String fun2) {
 		Set<String> S1 = cmap.get(fun1);
 		Set<String> S2 = cmap.get(fun2);
 
@@ -77,8 +77,8 @@ public class Pipair {
 			}
 		}
 
-		helper(fun1, fun2, join12, S1, S2);
-		helper(fun2, fun1, join21, S2, S1);
+		analyze(fun1, fun2, join12, S1, S2);
+		analyze(fun2, fun1, join21, S2, S1);
 	}
 
 
@@ -150,7 +150,7 @@ public class Pipair {
 		List<String> ls = new ArrayList<String>(cmap.keySet());
 		for (int i = 0; i < ls.size(); i++) {
 			for (int j = i + 1; j < ls.size(); j++) {
-				analyze(ls.get(i), ls.get(j));
+				analyzeOrder(ls.get(i), ls.get(j));
 			}
 		}
 	}
