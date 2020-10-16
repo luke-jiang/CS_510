@@ -70,24 +70,6 @@ public class Pipair {
 		Set<String> common = new HashSet<>(cmap.keySet());
 		common.retainAll(cmapR.keySet());
 
-		for (String func : common) {
-			Set<String> scopes = cmap.get(func);
-			Set<String> callers = cmapR.get(func);
-			for (String caller : callers) {
-				Set<String> S = cmap.get(caller);
-				S.addAll(scopes);
-			}
-		}
-
-		for (String func : common) {
-			cmap.remove(func);
-		}
-	}
-
-	public static void expand1() {
-		Set<String> common = new HashSet<>(cmap.keySet());
-		common.retainAll(cmapR.keySet());
-
 		Map<String, Set<String>> M = new HashMap<>();
 		for (String func : common) {
 			M.put(func, cmap.get(func));
@@ -141,10 +123,10 @@ public class Pipair {
 		File openFile = new File(path);
 		Scanner scanner;
 		try {
-		scanner = new Scanner(openFile);
+			scanner = new Scanner(openFile);
 		} catch (FileNotFoundException e) {
-		System.out.println("file not found");
-		return;
+			System.out.println("file not found");
+			return;
 		}
 
 		// process each line, build cmap
@@ -174,13 +156,10 @@ public class Pipair {
 				}
 			}
 		}
-
-
 		scanner.close();
+
 		if (EXPAND) {
-			expand1();
-			expand1();
-			expand1();
+			expand(); expand(); expand();
 		}
 
 		List<String> ls = new ArrayList<String>(cmap.keySet());
