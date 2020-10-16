@@ -2,7 +2,7 @@
 
 ### Group Member:
 - Luke Jiang  jiang700@purdue.edu
-- Sihao Yin  yin@purdue.edu
+- Sihao Yin  yin93@purdue.edu
 
 
 
