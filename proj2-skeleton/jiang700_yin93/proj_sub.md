@@ -63,7 +63,7 @@ pipair test1.bc 3 65 true
 ```
 where the last input specifies if inlining is enabled or not. The default is false.
 
-#### (iii) Experiments
+#### (ii) Experiments
 We run our program on `test3` with both (3, 65) and (10, 80) and were successful in removing the false positive pair `(apr_array_make, apr_hook_debug_show)` identified in b.iii. However, the number of bugs reported increases in general. We concluded that this is due to the inflation of confidence after inlining.
 
 
