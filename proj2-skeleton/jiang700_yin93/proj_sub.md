@@ -192,3 +192,12 @@ We run our program on `test3` with both (3, 65) and (10, 80) and were successful
 - classified as BUG
 - **Faulty Lines**: In `DeltaSession` inside function `setMaxInactiveInterval`, `deltaRequest` is accessed in line 280 without a request for lock.
 - **Proposed Fixx**: Move `lock()` before the line 280.
+
+
+### Part II (b)
+Coverity didn't find any issue with our code in part I (a), we think the following two reasons contributed to this 
+
+1. The code size is relatively small, hence it is less likely for bugs to appear 
+
+2. We put effort in writing the code, so our code is relatively well written. Therefore, our code doesn't contain any issue that might be caught by coverity  
+
