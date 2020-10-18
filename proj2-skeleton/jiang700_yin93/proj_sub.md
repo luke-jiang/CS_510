@@ -94,7 +94,7 @@ We run our program on `test3` with both (3, 65) and (10, 80) and were successful
 - test3 with threshhold=(3,65): 144 missing, 198 extra and 253 total.
 - test3 with threshhold=(10,80): 8 missing, 11 extra and 25 total.
 
-Please check the README file to see more details on how to run the code for this part.
+Please check the README file in the part D folder to see more details on how to run the code for this part.
 
 
 
