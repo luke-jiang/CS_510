@@ -9,4 +9,6 @@ fi
 
 # java -Xms128m -Xmx128m -cp ../src pipair.Pipair $CALL_GRAPH $2 $3 2>/dev/null
 
-java -cp ./:./src:./src/pipair pipair.Pipair ./test3/test3.bc.callgraph 10 80 true
+# java -cp ./:./src:./src/pipair pipair.Pipair ./test3/test3.bc.callgraph 3 65 true
+
+java -cp ./:./src:./src/pipair pipair.Pipair $CALL_GRAPH $2 $3 $4
