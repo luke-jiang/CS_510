@@ -1,0 +1,10 @@
+
+
+If you want to run `verify.sh`, uncomment line 11 and comment line 14 in the file `pipair.`
+If you want to run individual test cases, first `make`, then uncomment line 14 and comment line 11.
+e.g.
+```bash
+make
+pipair test3/httpd.bc.orig 3 65
+make clean
+```
