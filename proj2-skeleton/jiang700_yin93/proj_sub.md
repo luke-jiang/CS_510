@@ -59,7 +59,7 @@ The majority of code for this part is implemented in `expand`. In this function,
 
 The new algorithm can be run by the following command:
 ```bash
-pipair test1.bc 3 65 true
+pipair test3/httpd.bc.orig 3 65 true
 ```
 where the last input specifies if inlining is enabled or not. The default is false.
 
@@ -85,7 +85,7 @@ To facilitate our implementation, we used a hashmap-friendly implementation of P
 
 
 #### (ii) Evaluation
-We run our program on `test3` with both (3, 65) and (10, 80) and were successful in removing the false positive pair `(apr_array_make, apr_hook_debug_show)` identified in b.iii. It also reports fewer bugs in general. Here are the details:
+We run our program on `test3` with both (3, 65) and (10, 80) and were successful in removing the false positive pair `(apr_array_make, apr_hook_debug_show)` identified in b.iii. It also reports fewer bugs in general. Here are the details after we run our implementation using `verify.sh`:
 
 - test1 with threshhold=(3,65): Same.
 - test1 with threshhold=(10,80): Same.
@@ -94,6 +94,7 @@ We run our program on `test3` with both (3, 65) and (10, 80) and were successful
 - test3 with threshhold=(3,65): 144 missing, 198 extra and 253 total.
 - test3 with threshhold=(10,80): 8 missing, 11 extra and 25 total.
 
+Please check the README file to see more details on how to run the code for this part.
 
 
 
@@ -195,9 +196,8 @@ We run our program on `test3` with both (3, 65) and (10, 80) and were successful
 
 
 ### Part II (b)
-Coverity didn't find any issue with our code in part I (a), we think the following two reasons contributed to this 
+Coverity didn't find any issue with our code in part I (a), we think the following two reasons contributed to this
 
-1. The code size is relatively small, hence it is less likely for bugs to appear 
+1. The code size is relatively small, hence it is less likely for bugs to appear
 
 2. We put effort in writing the code, so our code is relatively well written. Therefore, our code doesn't contain any issue that might be caught by coverity  
-
