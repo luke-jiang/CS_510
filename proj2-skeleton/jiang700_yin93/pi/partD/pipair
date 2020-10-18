@@ -2,11 +2,13 @@
 
 # Generate call graph
 CALL_GRAPH="$1.callgraph"
-if test ! -f "$CALL_GRAPH" 
+if test ! -f "$CALL_GRAPH"
 then
     opt -print-callgraph $1 1>/dev/null 2> $CALL_GRAPH
 fi
 
-#java -Xms128m -Xmx128m -cp ../src pipair.Pipair $CALL_GRAPH $2 $3 2>/dev/null
+# use this line for verify.sh
+# java -Xms128m -Xmx128m -cp ../src pipair.Pipair $CALL_GRAPH $2 $3 2>/dev/null
 
-java -cp ./:./src:./src/pipair pipair.Pipair ./test2/test2.bc.callgraph 3 65 false
+# use this line for infividual test case, need to make first
+java -cp ./:./src:./src/pipair pipair.Pipair $CALL_GRAPH $2 $3
