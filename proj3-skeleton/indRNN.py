@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 import ind_rnn
 
 
-
+print("opening data files")
 with open('data/vocab_set.pickle', 'rb') as handle:
     vocabulary_set = pickle.load(handle)
 
@@ -30,9 +30,12 @@ model = tf.keras.Sequential([
     tf.keras.layers.Dense(1, activation='sigmoid')
 ])
 
+print("compiling models")
 model.compile(loss='binary_crossentropy',
               optimizer=tf.keras.optimizers.Adam(1e-4),
               metrics=['accuracy'])
 
 model.summary()
 batch_size = 16
+
+print("success")
