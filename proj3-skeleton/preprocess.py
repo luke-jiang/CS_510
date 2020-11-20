@@ -8,6 +8,7 @@ from tensorflow.keras.preprocessing.sequence import pad_sequences
 maxlen = 1000
 
 # Loading tokenized data
+print("opening data files")
 with open('data/tokenized_train.pickle', 'rb') as handle:
     train = pickle.load(handle)
 with open('data/tokenized_valid.pickle', 'rb') as handle:
@@ -16,6 +17,7 @@ with open('data/tokenized_test.pickle', 'rb') as handle:
    test = pickle.load(handle)
 
 # Reshape instances:
+print("reshaping")
 def reshape_instances(df):
     df["input"] = df["context_before"].apply(lambda x: " ".join(x)) + " <START> " + df["instance"].apply(lambda x: " ".join(x)) + " <END> " + df["context_after"].apply(lambda x: " ".join(x))
     X_df = []
@@ -39,11 +41,13 @@ X_valid = X_valid[:25000]
 Y_valid = Y_valid[:25000]
 
 # Build vocabulary and encoder from the training instances
+print("build vocab set")
 vocabulary_set = set()
 for data in X_train:
    vocabulary_set.update(data.split())
 
 # Encode training, valid and test instances
+print("encoding")
 encoder = tfds.features.text.TokenTextEncoder(vocabulary_set)
 
 def encode(text):
@@ -58,6 +62,7 @@ X_train = pad_sequences(X_train, maxlen=maxlen)
 X_test = pad_sequences(X_test, maxlen=maxlen)
 X_valid = pad_sequences(X_valid, maxlen=maxlen)
 
+print("dumping")
 with open('data/y_train.pickle', 'wb') as handle:
     pickle.dump(Y_train, handle)
 with open('data/y_test.pickle', 'wb') as handle:
@@ -72,4 +77,4 @@ with open('data/x_valid.pickle', 'wb') as handle:
     pickle.dump(X_valid, handle)
 with open('data/vocab_set.pickle', 'wb') as handle:
     pickle.dump(vocabulary_set, handle)
-
+print("finished")

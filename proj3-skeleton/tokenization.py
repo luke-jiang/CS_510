@@ -5,11 +5,11 @@ import javalang
 
 
 # Load the data:
-with open('/homes/cs408/project-3/data/train.pickle', 'rb') as handle:
+with open('/homes/cs510/project-3/data/train.pickle', 'rb') as handle:
     train = pickle.load(handle)
-with open('/homes/cs408/project-3/data/valid.pickle', 'rb') as handle:
+with open('/homes/cs510/project-3/data/valid.pickle', 'rb') as handle:
     valid = pickle.load(handle)
-with open('/homes/cs408/project-3/data/test.pickle', 'rb') as handle:
+with open('/homes/cs510/project-3/data/test.pickle', 'rb') as handle:
     test = pickle.load(handle)
 
 # Tokenize and shape our input:
