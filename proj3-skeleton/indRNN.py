@@ -9,7 +9,7 @@ from tensorflow.keras.utils import Sequence
 from sklearn.metrics import roc_curve, auc
 import matplotlib.pyplot as plt
 
-import ind_rnn
+from ind_rnn import *
 
 
 print("opening data files")
