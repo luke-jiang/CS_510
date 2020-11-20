@@ -9,6 +9,10 @@ from tensorflow.keras.utils import Sequence
 from sklearn.metrics import roc_curve, auc
 import matplotlib.pyplot as plt
 
+import ind_rnn
+
+
+'''
 with open('data/y_train.pickle', 'rb') as handle:
     Y_train = pickle.load(handle)
 with open('data/y_test.pickle', 'rb') as handle:
@@ -22,15 +26,17 @@ with open('data/x_test.pickle', 'rb') as handle:
     X_test = pickle.load(handle)
 with open('data/x_valid.pickle', 'rb') as handle:
     X_valid = pickle.load(handle)
+'''
 with open('data/vocab_set.pickle', 'rb') as handle:
     vocabulary_set = pickle.load(handle)
+'''
 X_train = X_train[:50000]
 Y_train = Y_train[:50000]
 X_test = X_test[:25000]
 Y_test = Y_test[:25000]
 X_valid = X_valid[:25000]
 Y_valid = Y_valid[:25000]
-
+'''
 # Encode training, valid and test instances
 encoder = tfds.features.text.TokenTextEncoder(vocabulary_set)
 
@@ -50,7 +56,7 @@ model.compile(loss='binary_crossentropy',
 
 model.summary()
 batch_size = 16
-
+'''
 # Building generators
 class CustomGenerator(Sequence):
     def __init__(self, text, labels, batch_size, num_steps=None):
@@ -87,10 +93,10 @@ his1 = model.fit_generator(
                     epochs=1,
                     validation_data=valid_gen,
                     callbacks=callback_list)
-                    
-                    
-                    
-                    
+
+
+
+
 predIdxs = model.predict_generator(test_gen, verbose=1)
 
 fpr, tpr, _ = roc_curve(Y_test, predIdxs)
@@ -108,9 +114,4 @@ plt.title('Receiver operating characteristic example')
 plt.legend(loc="lower right")
 
 plt.savefig('auc_model.png')
-
-                    
-                    
-                    
-                    
-                    
+'''
