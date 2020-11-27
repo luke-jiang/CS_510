@@ -3,9 +3,10 @@ import pickle
 import re
 import javalang
 
-
+print("load the data")
 # Load the data:
 with open('/homes/cs510/project-3/data/train.pickle', 'rb') as handle:
+# with open('data/cleaned_train.pickle', 'rb') as handle:
     train = pickle.load(handle)
 with open('/homes/cs510/project-3/data/valid.pickle', 'rb') as handle:
     valid = pickle.load(handle)
@@ -38,14 +39,17 @@ def tokenize_df(df):
     df['context_after'] = df['context_after'].apply(lambda x: custom_tokenize(x))
     return df
 
+
+print("start tokenization")
 test = tokenize_df(test)
 train = tokenize_df(train)
 valid = tokenize_df(valid)
 
+print("dumping results")
 with open('data/tokenized_train.pickle', 'wb') as handle:
     pickle.dump(train, handle, protocol=pickle.HIGHEST_PROTOCOL)
 with open('data/tokenized_valid.pickle', 'wb') as handle:
     pickle.dump(valid, handle, protocol=pickle.HIGHEST_PROTOCOL)
 with open('data/tokenized_test.pickle', 'wb') as handle:
     pickle.dump(test, handle, protocol=pickle.HIGHEST_PROTOCOL)
-
+print("finish")
