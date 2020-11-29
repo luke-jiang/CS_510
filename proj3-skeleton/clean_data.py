@@ -22,6 +22,7 @@ clean_ctx_af = []
 clean_flag = []
 
 dup_count = 0
+clean_count = 0
 
 old_inst = train["instance"].values
 old_ctx_bf = train["context_before"].values
@@ -37,10 +38,14 @@ for i in range(0, length):
     key = inst + ctx_bf + ctx_af
     if key not in instances:
         instances.add(key)
+        inst1 = inst.strip()
+        if len(inst1) == 0 and inst1.startswith("{}();"):
+            continue
         clean_inst.append(inst)
         clean_ctx_bf.append(ctx_bf)
         clean_ctx_af.append(ctx_af)
         clean_flag.append(flag)
+        clean_count += 1
     else:
         dup_count += 1
         
@@ -52,3 +57,4 @@ with open('data/cleaned_train.pickle', 'wb') as handle:
     pickle.dump(clean_train, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
 print("done. Found " + str(dup_count) + " duplicate instances")
+print("clean instances: " + str(clean_count))

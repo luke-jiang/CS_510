@@ -28,8 +28,8 @@ with open('data/x_valid.pickle', 'rb') as handle:
     X_valid = pickle.load(handle)
 with open('data/vocab_set.pickle', 'rb') as handle:
     vocabulary_set = pickle.load(handle)
-X_train = X_train[:50000]
-Y_train = Y_train[:50000]
+# X_train = X_train[:50000]
+# Y_train = Y_train[:50000]
 X_test = X_test[:25000]
 Y_test = Y_test[:25000]
 X_valid = X_valid[:25000]
